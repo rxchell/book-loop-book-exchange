@@ -12,14 +12,22 @@ The idea stems from the realization that many books are often left unread on she
 
 
 ## Features
-The platform will focus on solving the problem of book accessibility and reuse by providing users with an easy-to-navigate, centralized web application. 
-
-Key features:
 - User Profiles: Allow users to create accounts, list the books they own, and search for books from others.
 - Book Listings & Search: A robust system for browsing available books by genre, title, or author, and listing books they are willing to exchange.
 - Exchange Mechanism: A secure and straightforward system for initiating and completing book exchanges between users.
 - Community Engagement: Fostering interaction among users through recommendations, reviews, or forums.
 - AI-Enhanced Features: Leveraging AI to provide personalized book recommendations or streamline the exchange process.
+
+## How to use (the exciting part)
+Head over to [Book Loop](https://book-loop-book-exchange.vercel.app/) @ https://book-loop-book-exchange.vercel.app/!
+
+In case you need a test account:
+```
+Email address: bw@gmail.com
+Password: bookworm
+```
+
+Otherwise, feel free to create a new account to try out the features!
 
 ## Tech Stack
 Frontend
@@ -30,5 +38,8 @@ Frontend
 Database
 - Firebase
 
-## Installation 
+## Installation for developers
+1. Clone or fork the repository 
+2. Run `npm install` to install the necessary dependencies.
+3. Run `npm run dev` to start the web application.
 

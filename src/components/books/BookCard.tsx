@@ -20,6 +20,7 @@ import Tooltip from '@mui/joy/Tooltip';
 import { CssVarsProvider } from '@mui/joy/styles';
 import theme from "@/theme";
 import { CssBaseline } from "@mui/joy";
+import MarkAsExchanged from '@/features/books/MarkAsExchanged';
 
 type BookCardProps = Book & {
   liked?: boolean;
@@ -138,17 +139,21 @@ export default function BookCard(props: BookCardProps) {
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "right" }}>
-            <Tooltip title={`Chat with ${ownerUsername}`} arrow> 
-              <Link href="/messages" passHref>
-                <Button
-                  variant="soft"
-                  color="primary"
-                  sx={{ alignSelf: 'flex-end', marginTop: 2 }}
-                >
-                  Exchange
-                </Button>
-              </Link>
-            </Tooltip>
+            {owner && user && owner.username !== user.username ? (
+              <Tooltip title={`Chat with ${ownerUsername}`} arrow> 
+                <Link href="/messages" passHref>
+                  <Button
+                    variant="soft"
+                    color="success"
+                    sx={{ alignSelf: 'flex-end', marginTop: 2 }}
+                  >
+                    Exchange
+                  </Button>
+                </Link>
+              </Tooltip>
+            ) : (
+              <MarkAsExchanged />
+            )}
           </Box>
         </Box>
 
