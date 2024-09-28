@@ -5,7 +5,7 @@ import Divider from '@mui/joy/Divider';
 import List from "@mui/joy/List";
 import ListItem from "@mui/joy/ListItem";
 import ListItemButton, { listItemButtonClasses } from "@mui/joy/ListItemButton";
-import TableChartIcon from '@mui/icons-material/TableChart';
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 import Image from 'next/image'; 
 import logout from '@/firebase/(auth)/signout';
 import Avatar from "@mui/joy/Avatar";
@@ -24,7 +24,6 @@ import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LightDarkMode from "./LightDarkMode";
-import ChromeReaderModeIcon from '@mui/icons-material/ChromeReaderMode';
 import { closeSidebar } from '@/utils/sidebar';
 import {CssBaseline, CssVarsProvider} from '@mui/joy';
 import theme from '@/theme';
@@ -206,6 +205,15 @@ const NavigationBar: React.FC = () => {
               <HomeRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Home</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton variant="plain" component="a" href="/list-books">
+              <LibraryAddIcon />
+              <ListItemContent>
+                <Typography level="title-sm">List books</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
