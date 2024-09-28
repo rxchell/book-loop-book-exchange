@@ -1,3 +1,18 @@
+# Table of Contents
+- [What is *Book Loop*?](#what-is-book-loop)
+- [Origin](#origin)
+- [Features](#features)
+  - [User Profiles](#user-profiles)
+  - [Book Listings & Search](#book-listings--search)
+  - [Exchange Mechanism](#exchange-mechanism-a-secure-and-straightforward-system-for-initiating-and-completing-book-exchanges-between-users)
+  - [Community Engagement](#community-engagement)
+  - [Upcoming features](#upcoming-features)
+- [How to use (the exciting part)](#how-to-use-the-exciting-part)
+- [Tech Stack](#tech-stack)
+- [Installation for developers](#installation-for-developers)
+- [Project plan and milestone for future extensions](#project-plan-and-milestone-for-future-extensions)
+
+# Book Loop
 <img src="public/logo.svg" alt="Logo" width="170" height="100" />
 
 ## What is ***Book Loop***?
@@ -73,3 +88,5 @@ Database
 2. Run `npm install` to install the necessary dependencies.
 3. Run `npm run dev` to start the web application.
 4. For the databse, you can create your own database using Firebase as the `.env.local` files are currently not in this public repository.
+
+## Project plan and milestone for future extensions
