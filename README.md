@@ -116,6 +116,7 @@ Database
 2. **Book Listings**
    - Allow users to list books with details (title, author, genre, exchange method).
    - Implement image upload functionality.
+   - Edit the delete listing (not done yet)
 
 3. **Search and Filter**
    - Develop a basic search feature for browsing available books by title, author, or genre.
@@ -132,13 +133,13 @@ Database
 - **Objective:** Further enhance user interaction and community involvement.
 
 #### Tasks:
-1. **User Reviews and Ratings**
+1.. **User Reviews and Ratings**
    - Allow users to leave reviews and ratings for users and books they have exchanged.
 
-3. **Notification System**
+2. **Notification System**
    - Implement notifications for messages, friend requests, and book exchanges.
 
-4. **Discussion Forums**
+3. **Discussion Forums**
    - Introduce forums for users to discuss book recommendations, share insights, and connect over mutual interests.
 
 ### Phase 3: Advanced Features and AI Integration
