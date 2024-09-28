@@ -20,6 +20,7 @@ import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
 import QuestionAnswerRoundedIcon from "@mui/icons-material/QuestionAnswerRounded";
 import ArticleIcon from '@mui/icons-material/Article';
 import GroupRoundedIcon from "@mui/icons-material/GroupRounded";
+import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -214,6 +215,15 @@ const NavigationBar: React.FC = () => {
               <LibraryAddIcon />
               <ListItemContent>
                 <Typography level="title-sm">List books</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton variant="plain" component="a" href="/my-books">
+              <CollectionsBookmarkIcon />
+              <ListItemContent>
+                <Typography level="title-sm">My listed books</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>

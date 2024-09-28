@@ -12,6 +12,7 @@ import { doc,
     arrayUnion
  } from "firebase/firestore";
 import { Book } from "@/types/book";
+import { User } from "@/types/user";
 
 const db = getFirestore(firebase_app);
 
@@ -87,4 +88,45 @@ export async function getAllBooks() {
     );
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => doc.data() as Book);
+}
+
+// Function to retrieve all books listed by a user as Book objects
+export async function getListedBooks(userEmail: string): Promise<Book[]> {
+    try {
+        const docRef = doc(db, "users", userEmail);
+        const userDoc = await getDoc(docRef);
+
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const booksListedIds = userData.booksListed || []; // Get the array of book IDs
+
+            // Fetch book details for each book ID
+            const books = await Promise.all(
+                booksListedIds.map((bookId: string) => retrieveBookById(bookId))
+            );
+
+            return books.filter((book) => book !== null) as Book[]; // Filter out any null values and return as Book[]
+        } else {
+            console.log("No such user document!");
+            return []; // Return an empty array if the user does not exist
+        }
+    } catch (error) {
+        console.error("Error retrieving listed books:", error);
+        throw error;
+    }
+}
+
+export async function retrieveBookById(BookId: string): Promise<Book> {
+    try {
+        const record = await getDoc(doc(db, "books", BookId));
+
+        if (!record.exists()) {
+            throw new Error("Book record not found");
+        }
+
+        return record.data() as Book;
+    } catch (error) {
+        console.error("Error retrieving book:", error);
+        throw error; // Rethrow the error for handling in the UI or caller function
+    }
 }

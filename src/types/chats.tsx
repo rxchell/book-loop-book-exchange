@@ -6,6 +6,14 @@ export interface CreateChatProps {
     onClose: () => void;
     setSelectedChat: (chat: ChatProps) => void;
   }
+
+  export interface ChatToExchangeProps {
+    user: User;
+    open: boolean;
+    onClose: () => void;
+    setSelectedChat: (chat: ChatProps) => void;
+    owner: User;
+  }
   
 export type MessageProps = {
     id: string;
