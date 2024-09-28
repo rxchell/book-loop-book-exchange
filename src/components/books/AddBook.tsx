@@ -15,20 +15,25 @@ import { CssVarsProvider, CssBaseline } from '@mui/joy';
 import theme from '@/theme';
 import interestList from '@/data/interests.json';
 import { useAuthContext } from "@/context/AuthContext";
-import { useState } from "react";
-import { Book, Category } from "@/types/book"; // Import the Book and Category types
+import { useState, useEffect } from "react";
+import { Book, Category } from "@/types/book"; 
 import AlertStatus from '../AlertStatus';
 import { addNewBook } from "@/services/BookService";
+import { generateBookId } from '@/services/BookService';
+import {getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import BookPicture from './BookPicture';
+import { IconButton } from '@mui/joy';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
 
 export default function AddBook() {
     const [title, setTitle] = useState<string>("");
     const [author, setAuthor] = useState<string>("");
     const [category, setCategory] = useState<Category | null>(null);
-    const [image, setImage] = useState<string>("");
     const [location, setLocation] = useState<string>("");
     const [rating, setRating] = useState<number | null>(0);
-    const [ownerUsername, setOwnerUsername] = useState<string>("");
-    const [alert, setAlert] = useState<{ show: boolean; success: boolean; message: string }>({
+    const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+    const [image, setImage] = useState<string>("");
+    const [imageFile, setImageFile] = useState<File | null>(null);    const [alert, setAlert] = useState<{ show: boolean; success: boolean; message: string }>({
         show: false,
         success: false,
         message: '',
@@ -48,16 +53,6 @@ export default function AddBook() {
         setCategory(value as Category);
     };
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImage(reader.result as string);
-            };
-            reader.readAsDataURL(e.target.files[0]);
-        }
-    };
-
     const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLocation(event.target.value);
     };
@@ -66,38 +61,93 @@ export default function AddBook() {
         setRating(value ? Number(value) : null);
     };
 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            console.log('File selected:', file); // Add this line for debugging
+            setImageFile(file);
+            setImage(URL.createObjectURL(file));  // Generate a preview URL for the selected image
+        } else {
+            console.log('No file selected'); // Add this for debugging when no file is selected
+        }
+    };
+
+    const uploadBookImage = async (file: File, bookId: string) => {
+        const storage = getStorage();
+    
+        // You can use the bookId as part of the path to ensure uniqueness
+        const storageRef = ref(storage, `book_images/${user.username}/${bookId}`);
+    
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setUploadProgress(progress);
+                console.log('Upload is ' + progress + '% done');
+            },
+            (error) => {
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        console.error('User doesn\'t have permission to access the object');
+                        break;
+                    case 'storage/canceled':
+                        console.error('User canceled the upload');
+                        break;
+                    case 'storage/unknown':
+                        console.error('Unknown error occurred:', error.serverResponse);
+                        break;
+                }
+            },
+            
+            // Upload completed successfully, now we can get the download URL
+            async () => {
+                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                setImage(downloadURL);
+                console.log('File available at', downloadURL);
+            }
+        );
+    };
+
     const submitBookDetails = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const bookId = generateBookId();
+        if (imageFile) await uploadBookImage(imageFile, bookId);
+    
         const newBook: Book = {
-            bookId: "", 
+            bookId,
             title,
             author,
             category: category as Category,
-            image,
+            image, // This will be the URL from Firebase
             location,
             rating: rating ?? 0,
-            ownerUsername,
+            ownerUsername: user.username,
         };
-
+    
         await addNewBook(newBook);
         
         setAlert({ show: true, success: true, message: 'Book added successfully!' });
         
+        // Set a timeout to hide the alert after 5 seconds
+        setTimeout(() => {
+            setAlert({ show: false, success: false, message: '' });
+        }, 5000); // 5000 ms = 5 seconds
+
         // Clear the form after submission if desired
         setTitle("");
         setAuthor("");
         setCategory(null);
         setImage("");
+        setImageFile(null);
         setLocation("");
         setRating(null);
-        setOwnerUsername(user.username);
     };
 
     return (
         <CssVarsProvider theme={theme}>
             <CssBaseline />
 
-            <Box sx={{ flex: 1, width: '90%', justifyContent: 'center' }}>
+            <Box sx={{ flex: 1, width: '80%', justifyContent: 'center' }}>
                 <Box
                     sx={{
                         position: 'sticky',
@@ -125,7 +175,8 @@ export default function AddBook() {
                         alignItems: 'center',
                         justifyContent: 'center',
                         py: 2,
-                        width: '100%'
+                        width: '100%',
+                        paddingLeft: 5
                     }}>
 
                     <Card sx={{ width: '100%', height: '100%' }}>
@@ -134,6 +185,16 @@ export default function AddBook() {
                                 <AlertStatus success={alert.success} message={alert.message} />
                             </Box>
                         )}
+
+                        <Box 
+                            sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            width: '100%'                   
+                        }}
+                        >
+                            
+                        <Box component="form" sx={{flex: 3, display: 'flex', flexDirection: 'row' }}>
 
                         <Stack direction="column" spacing={3} sx={{ py: 1, px: 2, flexGrow: 1 }}>
                             <FormControl sx={{ flexGrow: 1 }}>
@@ -193,23 +254,86 @@ export default function AddBook() {
                                     ))}
                                 </Select>
                             </FormControl>
-
-
-                            <FormControl sx={{ flexGrow: 1 }}>
-                                <FormLabel>Cover Image</FormLabel>
-                                <input type="file" accept="image/*" onChange={handleImageChange} />
-                                {image && (
-                                    <AspectRatio ratio="1" sx={{ width: '100%', height: '100%', overflow: 'hidden' }}>
-                                        <img src={image} alt="Cover Preview" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
-                                    </AspectRatio>
-                                )}
-                            </FormControl>
                         </Stack>
 
+                            {/* Book Image */}
+                            <Box component="form" sx={{flex: 1, display: 'flex', alignItems: 'top', paddingLeft: 2, paddingRight: 2, height: 'auto' }}>
+                                <FormControl sx={{
+                                    width: '100%',
+                                    height: '100%',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                }}>
+
+                                    <FormLabel sx={{paddingTop: 1}}>
+                                        Book Image
+                                    </FormLabel>
+
+                                    <AspectRatio
+                                        ratio="1"
+                                        sx={{
+                                            width: '280px',
+                                            height: '390px',
+                                            overflow: 'hidden',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            bgcolor: 'transparent',
+                                            position: 'relative',
+                                        }}
+                                        objectFit="cover"
+                                    >
+                                        <img
+                                            src={image ? image : "/blank.svg"}
+                                            alt=""
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                borderRadius: '0%',
+                                            }}
+                                        />
+                                        <BookPicture/>
+                                    </AspectRatio>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageChange}
+                                        style={{ display: 'none' }}
+                                        id="book-image"
+                                    />
+                                    <label htmlFor="book-image">
+                                        <IconButton
+                                            aria-label="upload book image"
+                                            size="sm"
+                                            variant="outlined"
+                                            color="primary"
+                                            component="span"
+                                            sx={{
+                                                bgcolor: 'background.body',
+                                                position: 'absolute',
+                                                right: '-1%',
+                                                bottom: '1%',
+                                                borderRadius: '50%',
+                                                boxShadow: 'sm',
+                                            }}
+                                        >
+                                            <EditRoundedIcon />
+                                        </IconButton>
+                                    </label>
+
+                                </FormControl>
+                            </Box>
+
+                            </Box>
+                        </Box>
+
                         <CardActions sx={{ p: 2, justifyContent: 'center' }}>
-                            <Button type={"submit"}>Add Book</Button>
+                            <Button type={"submit"}>List this Book for Exchange</Button>
                         </CardActions>
+
                     </Card>
+
                 </Box>
             </Box>
         </CssVarsProvider>

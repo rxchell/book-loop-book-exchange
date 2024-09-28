@@ -14,25 +14,22 @@ import { Book } from "@/types/book";
 
 const db = getFirestore(firebase_app);
 
-function generateBookId(): string {
+export function generateBookId(): string {
     return uuidv4(); // Generate a random UUID v4
 }
 
 // Function to create a new book
 export async function addNewBook(bookData: Book): Promise<Book> {
     try {
-        // Create a unique book ID (You might want to use a more structured ID)
-        const bookId = generateBookId();
-        const bookDocRef = doc(db, "books", bookId);
+        const bookDocRef = doc(db, "books", bookData.bookId);
 
         // Set the book document in Firestore
         await setDoc(bookDocRef, {
             ...bookData,
-            bookId,
             createdAt: serverTimestamp(),
         });
 
-        return { ...bookData, bookId }; // Return the book data with the assigned bookId
+        return { ...bookData }; // Return the book data with the assigned bookId
     } catch (error) {
         console.error("Error adding book:", error);
         throw error; // Rethrow the error for handling in the UI or caller function
