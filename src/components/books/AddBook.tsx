@@ -138,6 +138,7 @@ export default function AddBook() {
         setAuthor("");
         setCategory(null);
         setImage("");
+        setImageFile(null);
         setLocation("");
         setRating(null);
     };
@@ -146,7 +147,7 @@ export default function AddBook() {
         <CssVarsProvider theme={theme}>
             <CssBaseline />
 
-            <Box sx={{ flex: 1, width: '90%', justifyContent: 'center' }}>
+            <Box sx={{ flex: 1, width: '80%', justifyContent: 'center' }}>
                 <Box
                     sx={{
                         position: 'sticky',
@@ -174,7 +175,8 @@ export default function AddBook() {
                         alignItems: 'center',
                         justifyContent: 'center',
                         py: 2,
-                        width: '100%'
+                        width: '100%',
+                        paddingLeft: 5
                     }}>
 
                     <Card sx={{ width: '100%', height: '100%' }}>
@@ -252,23 +254,13 @@ export default function AddBook() {
                                     ))}
                                 </Select>
                             </FormControl>
-                            
-                            {/* <FormControl sx={{ flexGrow: 1 }}>
-                                <FormLabel>Cover Image</FormLabel>
-                                <input type="file" accept="image/*" onChange={handleImageChange} />
-                                {image && (
-                                    <AspectRatio ratio="1" sx={{ width: '100%', height: '100%', overflow: 'hidden' }}>
-                                        <img src={image} alt="Cover Preview" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
-                                    </AspectRatio>
-                                )}
-                            </FormControl> */}
                         </Stack>
 
                             {/* Book Image */}
-                            <Box component="form" sx={{flex: 1, display: 'flex', alignItems: 'top', paddingLeft: 2, paddingRight: 2 }}>
+                            <Box component="form" sx={{flex: 1, display: 'flex', alignItems: 'top', paddingLeft: 2, paddingRight: 2, height: 'auto' }}>
                                 <FormControl sx={{
                                     width: '100%',
-                                    height: '80%',
+                                    height: '100%',
                                     display: 'flex',
                                     flexDirection: 'column',
                                 }}>
@@ -280,8 +272,8 @@ export default function AddBook() {
                                     <AspectRatio
                                         ratio="1"
                                         sx={{
-                                            width: '100%',
-                                            height: '100%',
+                                            width: '280px',
+                                            height: '390px',
                                             overflow: 'hidden',
                                             display: 'flex',
                                             alignItems: 'center',
@@ -320,8 +312,8 @@ export default function AddBook() {
                                             sx={{
                                                 bgcolor: 'background.body',
                                                 position: 'absolute',
-                                                right: '6%',
-                                                bottom: '6%',
+                                                right: '-1%',
+                                                bottom: '1%',
                                                 borderRadius: '50%',
                                                 boxShadow: 'sm',
                                             }}
