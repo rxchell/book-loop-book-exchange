@@ -94,10 +94,11 @@ Database
 - Firebase
 
 ## Installation for developers
-1. Clone or fork the repository 
-2. Run `npm install` to install the necessary dependencies.
-3. Run `npm run dev` to start the web application.
-4. For the database, you can create your own database using Firebase as the `.env.local` files are currently not in this public repository.
+1. Clone or fork this repository
+2. Navigate to the project directory: cd book-loop-book-exchange
+3. Run `npm install` to install the necessary dependencies.
+4. Configure your environment variables in a .env file. For the database, you can create your own database using Firebase as the `.env.local` files are currently not in this public repository.
+5. Run `npm run dev` to start the web application.
 
 --- 
 
