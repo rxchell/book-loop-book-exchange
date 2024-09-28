@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {User} from "@/types/user";
-import {retrieveFriendRequests, retrieveUserTimetables} from "@/services/UserService";
+import {retrieveFriendRequests} from "@/services/UserService";
 import UserDisplay from "@/features/search/components/UserDisplay";
 import Box from "@mui/joy/Box";
 import Typography from "@mui/joy/Typography";

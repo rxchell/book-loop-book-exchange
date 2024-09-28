@@ -173,7 +173,7 @@ const NavigationBar: React.FC = () => {
           <Image
             className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70]"
             src="/logo.svg"
-            alt="Study Buddy Logo"
+            alt="Book Loop Logo"
             width={170}
             height={120}
           />
