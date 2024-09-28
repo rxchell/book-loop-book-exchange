@@ -18,8 +18,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import { useState, useEffect } from "react";
 import { Book, Category } from "@/types/book"; 
 import AlertStatus from '../AlertStatus';
-import { addNewBook } from "@/services/BookService";
-import { generateBookId } from '@/services/BookService';
+import { generateBookId, updateListedBookRecords, addNewBook } from '@/services/BookService';
 import {getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import BookPicture from './BookPicture';
 import { IconButton } from '@mui/joy';
@@ -131,6 +130,7 @@ export default function AddBook() {
     
         // Add the new book to your database or Firestore
         await addNewBook(newBook);
+        await updateListedBookRecords(user.email, bookId);
     
         // Handle success message and reset form as you have been doing
         setAlert({ show: true, success: true, message: 'Book added successfully!' });

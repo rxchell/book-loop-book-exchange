@@ -8,7 +8,8 @@ import { doc,
     updateDoc,
     query,
     collection, 
-    getDocs
+    getDocs,
+    arrayUnion
  } from "firebase/firestore";
 import { Book } from "@/types/book";
 
@@ -62,6 +63,20 @@ export async function updateBook(bookId: string, updatedData: Partial<Book>): Pr
     } catch (error) {
         console.error("Error updating book:", error);
         throw error; // Rethrow the error for handling in the UI or caller function
+    }
+}
+
+export async function updateListedBookRecords(userEmail: string, bookId: string) {
+    try {
+        const docRef = doc(db, "users", userEmail as string);
+
+        // Add the new book listed to the array of listed books in the user's document
+        await updateDoc(docRef, {
+            booksListed: arrayUnion(bookId),
+        });
+    } catch (error) {
+        console.error("Error updating book listing records:", error);
+        throw error;
     }
 }
 
