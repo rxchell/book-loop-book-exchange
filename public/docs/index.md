@@ -29,7 +29,8 @@ Key features:
 
 ## Upcoming features
 - [ ] Provide personalized book recommendations for users using AI
-- [ ] 
+- [ ] Live notifications on the platform to show when a book has been added or exchanged
+- [ ] Personal notifications when a book that the user is looking for has been listed on the platform 
 
 ---
 A project by Rachel | [Source Repository](https://github.com/rxchell/book-loop-book-exchange) | [LinkedIn](https://www.linkedin.com/in/racheltai-/) | [Github](https://github.com/rxchell)

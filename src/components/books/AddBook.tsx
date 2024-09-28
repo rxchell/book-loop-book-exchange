@@ -18,6 +18,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import { useState } from "react";
 import { Book, Category } from "@/types/book"; // Import the Book and Category types
 import AlertStatus from '../AlertStatus';
+import { addNewBook } from "@/services/BookService";
 
 export default function AddBook() {
     const [title, setTitle] = useState<string>("");
@@ -77,8 +78,9 @@ export default function AddBook() {
             rating: rating ?? 0,
             ownerUsername,
         };
-        // Here you would handle the logic to add the book to your database or state
 
+        await addNewBook(newBook);
+        
         setAlert({ show: true, success: true, message: 'Book added successfully!' });
         
         // Clear the form after submission if desired
