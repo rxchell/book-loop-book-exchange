@@ -64,8 +64,11 @@ export default function AddBook() {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
+            console.log('File selected:', file); // Add this line for debugging
             setImageFile(file);
             setImage(URL.createObjectURL(file));  // Generate a preview URL for the selected image
+        } else {
+            console.log('No file selected'); // Add this for debugging when no file is selected
         }
     };
 
@@ -277,8 +280,8 @@ export default function AddBook() {
                                     <AspectRatio
                                         ratio="1"
                                         sx={{
-                                            width: '50%',
-                                            height: '50%',
+                                            width: '100%',
+                                            height: '100%',
                                             overflow: 'hidden',
                                             display: 'flex',
                                             alignItems: 'center',
@@ -289,8 +292,8 @@ export default function AddBook() {
                                         objectFit="cover"
                                     >
                                         <img
-                                            src={image ? image : '/blank.svg'}  // Use the updated `image` state for preview
-                                            alt="Cover Preview"
+                                            src={image ? image : "/blank.svg"}
+                                            alt=""
                                             style={{
                                                 width: '100%',
                                                 height: '100%',
@@ -298,18 +301,18 @@ export default function AddBook() {
                                                 borderRadius: '0%',
                                             }}
                                         />
-                                        <BookPicture />
+                                        <BookPicture/>
                                     </AspectRatio>
                                     <input
                                         type="file"
                                         accept="image/*"
                                         onChange={handleImageChange}
                                         style={{ display: 'none' }}
-                                        id="profile-picture"
+                                        id="book-image"
                                     />
-                                    <label htmlFor="profile-picture">
+                                    <label htmlFor="book-image">
                                         <IconButton
-                                            aria-label="upload new picture"
+                                            aria-label="upload book image"
                                             size="sm"
                                             variant="outlined"
                                             color="primary"
@@ -323,9 +326,10 @@ export default function AddBook() {
                                                 boxShadow: 'sm',
                                             }}
                                         >
-                                            <EditRoundedIcon/>
+                                            <EditRoundedIcon />
                                         </IconButton>
                                     </label>
+
                                 </FormControl>
                             </Box>
 
