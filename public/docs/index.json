@@ -1,0 +1,13 @@
+[
+  {
+    "name": "socialNetwork",
+    "topic": "Using the Social Network"
+  },
+  { "name": "messages",
+    "topic": "Using the Messaging feature"
+  },
+  {
+    "name": "settings",
+    "topic": "Using the Settings feature"
+  }
+]
