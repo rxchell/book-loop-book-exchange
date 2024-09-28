@@ -22,7 +22,6 @@ Or you can read the introduction below too!
 ---
 
 # Book Loop
-<img src="public/logo.svg" alt="Logo" width="170" height="100" />
 
 ## What is ***Book Loop***?
 

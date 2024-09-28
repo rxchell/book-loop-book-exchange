@@ -1,5 +1,13 @@
 [
   {
+    "name": "listings",
+    "topic": "Using the Listings feature"
+  },
+  {
+    "name": "exchange",
+    "topic": "Exchanging a Book"
+  },
+  {
     "name": "socialNetwork",
     "topic": "Using the Social Network"
   },
