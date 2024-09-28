@@ -23,7 +23,13 @@ Key features:
 - Book Listings & Search: A robust system for browsing available books by genre, title, or author, and listing books they are willing to exchange.
 - Exchange Mechanism: A secure and straightforward system for initiating and completing book exchanges between users.
 - Community Engagement: Fostering interaction among users through recommendations, reviews, or forums.
-- AI-Enhanced Features: Leveraging AI to provide personalized book recommendations or streamline the exchange process.
+- User guide
 
 ---
 
+## Upcoming features
+- [ ] Provide personalized book recommendations for users using AI
+- [ ] 
+
+---
+A project by Rachel | [Source Repository](https://github.com/rxchell/book-loop-book-exchange) | [LinkedIn](https://www.linkedin.com/in/racheltai-/) | [Github](https://github.com/rxchell)
