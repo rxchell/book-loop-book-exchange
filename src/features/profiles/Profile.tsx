@@ -39,17 +39,19 @@ const Profile: React.FC<ProfileProps> = ({user}) => {
                             {user.lastName}
                         </Typography>
 
-                        <Divider/>
-
-                        <Typography level="title-md" paddingTop={1} paddingBottom={1} >
-                            {user.major ? user.major : "Major: Not specified"}
-                        </Typography>
-
                         <Divider />
 
                         <Box paddingTop={1} >
                             {user.interests && user.interests.length > 0 ? (
                                 <Interests interests={user.interests}/>
+                            ) : (
+                                <Typography>Interests: Not specified</Typography>
+                            )}
+                        </Box>  
+
+                        <Box paddingTop={1} >
+                            {user.lookingFor && user.lookingFor.length > 0 ? (
+                                <Interests interests={user.lookingFor}/>
                             ) : (
                                 <Typography>Interests: Not specified</Typography>
                             )}
