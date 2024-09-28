@@ -97,7 +97,7 @@ Database
 1. Clone or fork the repository 
 2. Run `npm install` to install the necessary dependencies.
 3. Run `npm run dev` to start the web application.
-4. For the databse, you can create your own database using Firebase as the `.env.local` files are currently not in this public repository.
+4. For the database, you can create your own database using Firebase as the `.env.local` files are currently not in this public repository.
 
 --- 
 
