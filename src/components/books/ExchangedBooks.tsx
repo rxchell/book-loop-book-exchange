@@ -32,7 +32,13 @@ export default function FavouriteBooks() {
 
   return (
     <div>
-        <div>No exchanged books available.</div> // Message when no books are found
+
+      <Typography level="h3" textAlign={'left'}> 
+        List of exchanged books
+      </Typography>
+
+      <div>No exchanged books available.</div>
+
     </div>
   );
 }
