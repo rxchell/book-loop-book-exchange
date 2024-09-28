@@ -10,7 +10,7 @@ import { Button } from '@mui/joy';
 import AlertStatus from '@/components/AlertStatus'; 
 import { useRouter } from 'next/navigation';
 import theme from '@/theme'; 
-import { retrieveUserFriendsUsers } from '@/services/UserService'; 
+import {getAllUsers} from "@/services/UserService";
 
 const CreateChat: React.FC<CreateChatProps> = ({ user, open, onClose, setSelectedChat }) => {
     const [friendName, setFriendName] = React.useState<string>(''); 
@@ -30,7 +30,7 @@ const CreateChat: React.FC<CreateChatProps> = ({ user, open, onClose, setSelecte
     React.useEffect(() => {
         const fetchUserFriends = async () => {
             try {
-                const fetchedFriends = await retrieveUserFriendsUsers(user.email);
+                const fetchedFriends = await getAllUsers();
                 setFriends(fetchedFriends);
             } catch (error) {
                 console.error('Error fetching user friends:', error);
