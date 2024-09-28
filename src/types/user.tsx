@@ -20,7 +20,7 @@ export type User = {
     friends?: Record<string, "None" | "Requested" | "Pending" | "Friend">
     profile?: string
     online?: boolean
-    booksListed: Record<string, string>  
-    booksExchanged: Record<string, string>
-    booksLiked: Record<string, string>
+    booksListed?: Record<string, string>  
+    booksExchanged?: Record<string, string>
+    booksLiked?: Record<string, string>
 }
