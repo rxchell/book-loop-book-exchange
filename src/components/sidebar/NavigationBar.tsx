@@ -218,6 +218,15 @@ const NavigationBar: React.FC = () => {
             </ListItemButton>
           </ListItem>
 
+          <ListItem>
+            <ListItemButton variant="plain" component="a" href="/my-books">
+              <LibraryAddIcon />
+              <ListItemContent>
+                <Typography level="title-sm">My listed books</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
           <ListItem nested>
             <Toggler
               renderToggle={({ open, setOpen }) => (
