@@ -31,6 +31,8 @@ import theme from '@/theme';
 import {useAuthContext} from "@/context/AuthContext";
 import {retrieveFriendRequestsCount} from '@/services/UserService';
 import { getTotalUnreadMessages } from '@/services/ChatService';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 
 // Toggle open/close state of navigation bar
 function Toggler({
@@ -224,6 +226,24 @@ const NavigationBar: React.FC = () => {
               <CollectionsBookmarkIcon />
               <ListItemContent>
                 <Typography level="title-sm">My listed books</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton variant="plain" component="a" href="/favourite-books">
+              <FavoriteIcon />
+              <ListItemContent>
+                <Typography level="title-sm">Favourite books</Typography>
+              </ListItemContent>
+            </ListItemButton>
+          </ListItem>
+
+          <ListItem>
+            <ListItemButton variant="plain" component="a" href="/exchanged-books">
+              <BookmarkAddedIcon />
+              <ListItemContent>
+                <Typography level="title-sm">Exchanged books</Typography>
               </ListItemContent>
             </ListItemButton>
           </ListItem>
