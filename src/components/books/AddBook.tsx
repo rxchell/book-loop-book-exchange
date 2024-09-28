@@ -18,8 +18,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import { useState, useEffect } from "react";
 import { Book, Category } from "@/types/book"; 
 import AlertStatus from '../AlertStatus';
-import { addNewBook } from "@/services/BookService";
-import { generateBookId } from '@/services/BookService';
+import { generateBookId, updateListedBookRecords, addNewBook } from '@/services/BookService';
 import {getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import BookPicture from './BookPicture';
 import { IconButton } from '@mui/joy';
@@ -31,6 +30,7 @@ export default function AddBook() {
     const [category, setCategory] = useState<Category | null>(null);
     const [location, setLocation] = useState<string>("");
     const [rating, setRating] = useState<number | null>(0);
+    const [downloadURL, setDownloadURL] = useState<string>("");
     const [uploadProgress, setUploadProgress] = useState<number | null>(null);
     const [image, setImage] = useState<string>("");
     const [imageFile, setImageFile] = useState<File | null>(null);    const [alert, setAlert] = useState<{ show: boolean; success: boolean; message: string }>({
@@ -67,81 +67,88 @@ export default function AddBook() {
             console.log('File selected:', file); // Add this line for debugging
             setImageFile(file);
             setImage(URL.createObjectURL(file));  // Generate a preview URL for the selected image
+            console.log('Image preview:', URL.createObjectURL(file)); // Add this line for debugging
         } else {
             console.log('No file selected'); // Add this for debugging when no file is selected
         }
     };
 
-    const uploadBookImage = async (file: File, bookId: string) => {
+    const uploadBookImage = async (file: File, bookId: string): Promise<string> => {
         const storage = getStorage();
-    
-        // You can use the bookId as part of the path to ensure uniqueness
+        const metadata = { contentType: file.type };
+        
         const storageRef = ref(storage, `book_images/${user.username}/${bookId}`);
+        
+        const uploadTask = uploadBytesResumable(storageRef, file, metadata);
     
-        const uploadTask = uploadBytesResumable(storageRef, file);
-        uploadTask.on('state_changed',
-            (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                setUploadProgress(progress);
-                console.log('Upload is ' + progress + '% done');
-            },
-            (error) => {
-                switch (error.code) {
-                    case 'storage/unauthorized':
-                        console.error('User doesn\'t have permission to access the object');
-                        break;
-                    case 'storage/canceled':
-                        console.error('User canceled the upload');
-                        break;
-                    case 'storage/unknown':
-                        console.error('Unknown error occurred:', error.serverResponse);
-                        break;
+        return new Promise((resolve, reject) => {
+            uploadTask.on('state_changed',
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setUploadProgress(progress);
+                    console.log('Upload is ' + progress + '% done');
+                },
+                (error) => {
+                    reject(error);
+                },
+                async () => {
+                    try {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        console.log('Download URL:', downloadURL);  // Log the Firebase URL
+                        resolve(downloadURL);  // Resolve the promise with the download URL
+                    } catch (error) {
+                        reject(error);
+                    }
                 }
-            },
-            
-            // Upload completed successfully, now we can get the download URL
-            async () => {
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                setImage(downloadURL);
-                console.log('File available at', downloadURL);
-            }
-        );
-    };
-
+            );
+        });
+    };    
+    
     const submitBookDetails = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const bookId = generateBookId();
-        if (imageFile) await uploadBookImage(imageFile, bookId);
+        
+        const bookId = generateBookId();  // Generate a unique ID for the book
+        let bookImageURL = '';
     
+        // Check if an image file is selected and upload it
+        if (imageFile) {
+            bookImageURL = await uploadBookImage(imageFile, bookId);  // Wait for the image to be uploaded
+        }
+    
+        console.log('Book image after upload:', bookImageURL); // Now this will log the Firebase URL
+        
         const newBook: Book = {
             bookId,
             title,
             author,
             category: category as Category,
-            image, // This will be the URL from Firebase
+            image: bookImageURL,  // Use the URL from Firebase directly
             location,
             rating: rating ?? 0,
             ownerUsername: user.username,
         };
     
+        // Add the new book to your database or Firestore
         await addNewBook(newBook);
-        
+        await updateListedBookRecords(user.email, bookId);
+    
+        // Handle success message and reset form as you have been doing
         setAlert({ show: true, success: true, message: 'Book added successfully!' });
         
-        // Set a timeout to hide the alert after 5 seconds
-        setTimeout(() => {
-            setAlert({ show: false, success: false, message: '' });
-        }, 5000); // 5000 ms = 5 seconds
-
-        // Clear the form after submission if desired
+        // Reset the form fields
         setTitle("");
         setAuthor("");
         setCategory(null);
-        setImage("");
+        setImage("");  // Reset image state
         setImageFile(null);
         setLocation("");
-        setRating(null);
-    };
+        setRating(null);    
+    
+        // Hide the alert after a timeout
+        setTimeout(() => {
+            setAlert({ show: false, success: false, message: '' });
+        }, 5000);  // 5000 ms = 5 seconds
+    };    
 
     return (
         <CssVarsProvider theme={theme}>

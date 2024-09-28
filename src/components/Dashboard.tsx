@@ -6,6 +6,7 @@ import NavigationBar from './sidebar/NavigationBar';
 import {CssBaseline, CssVarsProvider} from "@mui/joy";
 import theme from "@/theme";
 import {useAuthContext} from "@/context/AuthContext";
+import BookList from "@/components/books/BookList";
 
 const Dashboard: React.FC = () => {
 
@@ -25,13 +26,11 @@ const Dashboard: React.FC = () => {
                     sx={{flexGrow: 1, p: 5, width: {sm: `calc(100% - 240px)`}}}
                 >
                     <Box sx={{p: 3, textAlign:'center'}}>
-                        <Typography level="h3">
-                            Welcome back to your dashboard
+                        <Typography level="h2">
+                            Welcome back {user && user.username} !
                         </Typography>
-                        <Typography level="h1"
-                                    display="inline">
-                            {user && user.username}
-                        </Typography>
+
+                        <BookList/>
 
                     </Box>
                 </Box>

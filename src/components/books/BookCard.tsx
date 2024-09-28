@@ -2,19 +2,23 @@ import * as React from 'react';
 import AspectRatio from '@mui/joy/AspectRatio';
 import Card from '@mui/joy/Card';
 import CardContent from '@mui/joy/CardContent';
-import CardOverflow from '@mui/joy/CardOverflow';
-import Chip from '@mui/joy/Chip';
-import IconButton from '@mui/joy/IconButton';
-import Link from '@mui/joy/Link';
 import Stack from '@mui/joy/Stack';
 import Typography from '@mui/joy/Typography';
+import IconButton from '@mui/joy/IconButton';
+import Link from '@mui/joy/Link';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import Star from '@mui/icons-material/Star';
+import Button from '@mui/joy/Button';
+import Chip from '@mui/joy/Chip';
 import { Book } from '@/types/book';
+import Avatar from '@mui/joy/Avatar';
+import Box from '@mui/joy/Box';
+import { retrieveUserFromUsername } from '@/services/UserService';
+import { User } from '@/types/user';
 
 type BookCardProps = Book & {
   liked?: boolean;
-  onLike?: (book: Book) => void; // Callback to handle like action
+  onLike?: (book: Book) => void;
 };
 
 export default function BookCard(props: BookCardProps) {
@@ -31,131 +35,107 @@ export default function BookCard(props: BookCardProps) {
   } = props;
 
   const [isLiked, setIsLiked] = React.useState(liked);
+  const [owner, setOwner] = React.useState<User | null>(null);
 
   const handleLikeClick = () => {
     setIsLiked((prev) => !prev);
     if (onLike) {
-      onLike(props); // Pass the entire book object for onLike
+      onLike(props);
     }
+  };
+
+  async () => {
+    const fetchedUser = await retrieveUserFromUsername(ownerUsername);
+    setOwner(fetchedUser);
   };
 
   return (
     <Card
       variant="outlined"
-      orientation="horizontal"
       sx={{
         bgcolor: 'neutral.softBg',
         display: 'flex',
-        flexDirection: { xs: 'column', sm: 'row' },
+        flexDirection: 'row',
+        maxHeight: '400px',
+        overflow: 'hidden',
         '&:hover': {
           boxShadow: 'lg',
           borderColor: 'var(--joy-palette-neutral-outlinedDisabledBorder)',
         },
       }}
     >
-      <CardOverflow
+      {/* Left column: Book image */}
+      <AspectRatio
+        ratio="1"
         sx={{
-          mr: { xs: 'var(--CardOverflow-offset)', sm: 0 },
-          mb: { xs: 0, sm: 'var(--CardOverflow-offset)' },
+          minWidth: { sm: 120, md: 160 },
+          maxHeight: '160px',
+          marginRight: 2,
         }}
       >
-        <AspectRatio
-          ratio="1"
-          flex
-          sx={{
-            minWidth: { sm: 120, md: 160 },
-            '--AspectRatio-maxHeight': { xs: '160px', sm: '9999px' },
-          }}
-        >
-          <img alt={title} src={image} />
-          <Stack
-            direction="row"
-            sx={{
-              alignItems: 'center',
-              position: 'absolute',
-              top: 0,
-              width: '100%',
-              p: 1,
-            }}
-          >
-            <IconButton
-              variant="plain"
-              size="sm"
-              color={isLiked ? 'danger' : 'neutral'}
-              onClick={handleLikeClick}
-              sx={{
-                display: { xs: 'flex', sm: 'none' },
-                ml: 'auto',
-                borderRadius: '50%',
-                zIndex: '20',
-              }}
-            >
-              <FavoriteRoundedIcon />
-            </IconButton>
+        <img alt={title} src={image} style={{ objectFit: 'cover' }} />
+      </AspectRatio>
+
+      {/* Middle column: Book details */}
+      <CardContent sx={{ flex: 1 }}>
+        <Stack spacing={1} alignItems="flex-start"> {/* Aligns to the left */}
+          <Chip variant='outlined'>{category}</Chip>
+          <Typography level="title-md" noWrap>
+            <Link overlay underline="none" sx={{ color: 'text.primary' }}>
+              {title}
+            </Link>
+          </Typography>
+          <Typography level="body-sm" sx={{ fontWeight: '600' }} noWrap>
+            by {author}
+          </Typography>
+          <Stack direction="row" spacing={0.5}>
+            {[...Array(5)].map((_, index) => (
+              <Star key={index} sx={{ color: index < Math.floor(rating) ? 'warning.400' : 'warning.200' }} />
+            ))}
           </Stack>
-        </AspectRatio>
-      </CardOverflow>
-      <CardContent>
-        <Stack
-          spacing={1}
-          direction="row"
-          sx={{ justifyContent: 'space-between', alignItems: 'flex-start' }}
-        >
-          <div>
-            <Typography level="body-sm">{category}</Typography>
-            <Typography level="title-md">
-              <Link overlay underline="none" sx={{ color: 'text.primary' }}>
-                {title}
-              </Link>
-            </Typography>
-            <Typography level="body-xs" sx={{ color: 'text.tertiary' }}>
-              by {author}
-            </Typography>
-            <Typography level="body-xs" sx={{ color: 'text.tertiary' }}>
-              Listed by {ownerUsername} {/* Display owner username */}
-            </Typography>
-          </div>
-          <IconButton
-            variant="plain"
-            size="sm"
-            color={isLiked ? 'danger' : 'neutral'}
-            onClick={handleLikeClick}
-            sx={{ display: { xs: 'none', sm: 'flex' }, borderRadius: '50%' }}
-          >
-            <FavoriteRoundedIcon />
-          </IconButton>
-        </Stack>
-        <Stack
-          spacing="0.25rem 1rem"
-          direction="row"
-          useFlexGap
-          sx={{ flexWrap: 'wrap', my: 0.25 }}
-        >
-          <Typography level="body-xs">
-            {location}
-          </Typography>
-        </Stack>
-        <Stack direction="row" sx={{ mt: 'auto' }}>
-          <Typography
-            level="title-sm"
-            startDecorator={
-              <React.Fragment>
-                <Star sx={{ color: 'warning.400' }} />
-                <Star sx={{ color: 'warning.400' }} />
-                <Star sx={{ color: 'warning.400' }} />
-                <Star sx={{ color: 'warning.400' }} />
-                <Star sx={{ color: 'warning.200' }} />
-              </React.Fragment>
-            }
-            sx={{ display: 'flex', gap: 1 }}
-          >
-            {rating.toFixed(1)} {/* Display rating with one decimal place */}
-          </Typography>
-          <Typography level="title-lg" sx={{ flexGrow: 1, textAlign: 'right' }}>
-            <strong>Free</strong>
-          </Typography>
         </Stack>
       </CardContent>
+
+      {/* Right column: Owner and location details */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', p: 2, minWidth: 160 }}>
+        {/* Top-right: Like button */}
+        <IconButton
+          variant="plain"
+          size="sm"
+          color={isLiked ? 'danger' : 'neutral'}
+          onClick={handleLikeClick}
+          sx={{ alignSelf: 'flex-end', borderRadius: '50%' }}
+        >
+          <FavoriteRoundedIcon />
+        </IconButton>
+
+        {/* Avatar and owner details */}
+        <Box 
+          sx={{ display: "flex", justifyContent: "right" }}
+          component={"a"}
+          href={ownerUsername ? `/user/${ownerUsername}` : '/home'}
+        >
+          <Typography level="body-xs" sx={{ color: 'text.tertiary' }} noWrap>
+            Listed by 
+          </Typography>
+            <Typography level="title-sm" paddingLeft={1}>{ownerUsername}</Typography>
+        </Box>
+
+        <Box sx={{ display: "flex", justifyContent: "right" }}>
+          <Typography level="body-xs" noWrap paddingTop={1} sx={{ color: 'text.primary' }}>
+            {location}
+          </Typography>
+        </Box>
+
+        {/* Bottom-right: Exchange button */}
+        <Button
+          variant="soft"
+          color="primary"
+          sx={{ alignSelf: 'flex-end', marginTop: 2 }}
+        >
+          Exchange
+        </Button>
+      </Box>
     </Card>
   );
 }
