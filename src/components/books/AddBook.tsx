@@ -11,7 +11,6 @@ import Option from '@mui/joy/Option';
 import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 import CardActions from '@mui/joy/CardActions';
-import Autocomplete from '@mui/joy/Autocomplete';
 import { CssVarsProvider, CssBaseline } from '@mui/joy';
 import theme from '@/theme';
 import interestList from '@/data/interests.json';
@@ -62,7 +61,7 @@ export default function AddBook() {
         setLocation(event.target.value);
     };
 
-    const handleRatingChange = (event: any, value: string | null) => {
+    const handleRatingChange = (value: number | null) => {
         setRating(value ? Number(value) : null);
     };
 
@@ -154,7 +153,7 @@ export default function AddBook() {
                             </FormControl>
 
                             <FormControl>
-                                <FormLabel>Category</FormLabel>
+                                <FormLabel>Category of the book</FormLabel>
                                 <Select
                                     size="sm"
                                     value={category}
@@ -170,9 +169,9 @@ export default function AddBook() {
                             </FormControl>
 
                             <FormControl sx={{ flexGrow: 1 }}>
-                                <FormLabel>Mode of book exchange (Specify Delivery or Meetup details)</FormLabel>
+                                <FormLabel>Mode of book exchange</FormLabel>
                                 <Input size="sm"
-                                    placeholder="Location"
+                                    placeholder="Specify Delivery or Meetup details"
                                     value={location}
                                     onChange={handleLocationChange}
                                     fullWidth />
@@ -182,10 +181,9 @@ export default function AddBook() {
                                 <FormLabel>Rating</FormLabel>
                                 <Select
                                     size="sm"
-                                    value={rating !== null ? rating.toString() : ""}
-                                    onChange={handleRatingChange}
-                                >
-                                    {/* Generate options from 1 to 5 */}
+                                    value={rating}
+                                    onChange={(e, newValue) =>
+                                        handleRatingChange(newValue)}>
                                     {[1, 2, 3, 4, 5].map((value) => (
                                         <Option key={value} value={value}>
                                             {value}
