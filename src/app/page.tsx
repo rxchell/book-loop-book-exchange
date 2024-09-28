@@ -27,7 +27,7 @@ export default function LandingPage() {
                 </Box>
 
                 <Typography level="h3" style={{ paddingTop: '40px' }}>
-                    Let's circulate books! 
+                    Let&apos;s circulate books! 
                 </Typography>
                 <Typography level="title-md" style={{ paddingTop: '10px' }}>
                     A Peer-to-Peer Book Exchange Platform for anyone and everyone.
