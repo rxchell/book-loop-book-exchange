@@ -4,6 +4,7 @@ import BookCard from './BookCard';
 import { getAllBooks } from '@/services/BookService';
 import { Book } from '@/types/book';
 import { Typography } from '@mui/joy';
+import BookSearch from "@/features/search/components/BookSearch";
 
 export default function BookList() {
   const [books, setBooks] = useState<Book[]>([]); // State to store the list of books
@@ -32,9 +33,11 @@ export default function BookList() {
   return (
     <div>
 
-      <Typography level="h4" textAlign={'left'}> 
+      <Typography level="h3" textAlign={'left'}> 
         List of books
       </Typography>
+
+      <BookSearch books={books} onSetFilter={setBooks} /> {/* Render the BookSearch component */}
       
       {books.length > 0 ? (
         books.map((book, index) => (

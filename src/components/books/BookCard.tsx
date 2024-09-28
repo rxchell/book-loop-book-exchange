@@ -122,7 +122,7 @@ export default function BookCard(props: BookCardProps) {
         </Box>
 
         <Box sx={{ display: "flex", justifyContent: "right" }}>
-          <Typography level="body-xs" noWrap paddingTop={1} sx={{ color: 'text.tertiary' }}>
+          <Typography level="body-xs" noWrap paddingTop={1} sx={{ color: 'text.primary' }}>
             {location}
           </Typography>
         </Box>
