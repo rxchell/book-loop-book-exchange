@@ -7,10 +7,12 @@
   - [Exchange Mechanism](#exchange-mechanism-a-secure-and-straightforward-system-for-initiating-and-completing-book-exchanges-between-users)
   - [Community Engagement](#community-engagement)
   - [Upcoming features](#upcoming-features)
-- [How to use (the exciting part)](#how-to-use-the-exciting-part)
+- [How to use (the exciting part!)](#how-to-use-the-exciting-part)
 - [Tech Stack](#tech-stack)
 - [Installation for developers](#installation-for-developers)
 - [Project plan and milestone for future extensions](#project-plan-and-milestone-for-future-extensions)
+
+<br />
 
 ---
 
@@ -24,9 +26,10 @@
 > The name ***Book Loop*** reflects the idea of circulating books among readers, emphasizing the sharing and community aspects of the platform.
 
 
-## Origin
+### Origin
 The idea stems from the realization that many books are often left unread on shelves, while others may be searching for the very same books. This platform aims to give books a second life, encouraging sustainability by reducing waste and fostering a community of readers.
 
+<br />
 
 ## Features
 ### User Profiles
@@ -71,9 +74,9 @@ The idea stems from the realization that many books are often left unread on she
 
 Refer to [Project plan and milestone for future extensions](#project-plan-and-milestone-for-future-extensions) for a more detailed plan!
 
+<br />
 
-
-## How to use (the exciting part)
+## How to use (the exciting part!)
 Head over to [Book Loop](https://book-loop-book-exchange.vercel.app/) @ https://book-loop-book-exchange.vercel.app/!
 
 In case you need a test account:
@@ -84,6 +87,9 @@ Password: bookworm
 
 Otherwise, feel free to create a new account to try out the features!
 
+<br />
+
+
 ## Tech Stack
 Frontend
 - React (frontend framework)
@@ -93,22 +99,31 @@ Frontend
 Database
 - Firebase
 
+<br />
+
+
 ## Installation for developers
-1. Clone or fork this repository
+1. Clone or fork this repository. (Feel free to fork this repository and make a pull request to this main repository for suggestions on improvements!)
 2. Navigate to the project directory: cd book-loop-book-exchange
 3. Run `npm install` to install the necessary dependencies.
-4. Configure your environment variables in a .env file. For the database, you can create your own database using Firebase as the `.env.local` files are currently not in this public repository.
-5. Run `npm run dev` to start the web application.
+   ```
+   npm install
+   ```
+5. Configure your environment variables in a .env file. For the database, you can create your own database using Firebase as the actual `.env.local` files are currently not in this public repository. A template `.env.local` file is provided as `example.env.local` in the root directory. 
+6. Run `npm run dev` to start the web application.
+   ```
+   npm run dev
+   ```
+   
+<br />
 
 --- 
 
 # Project plan and milestone for future extensions
-## Milestones
-
-### Phase 1: Proof Of Concept for Core Functionality Development 
+## Milestone 1: Proof Of Concept for Core Functionality Development 
 - **Objective:** Build a Minimum Viable Product (MVP) that showcases essential features.
 
-#### Tasks:
+## Tasks:
 1. **User Authentication**
    - Implement user sign-up and login functionality.
    - Set up profile creation with favorite genres and interests.
@@ -116,7 +131,7 @@ Database
 2. **Book Listings**
    - Allow users to list books with details (title, author, genre, exchange method).
    - Implement image upload functionality.
-   - Edit the delete listing (not done yet)
+   - Edit and delete the listing (not done yet)
 
 3. **Search and Filter**
    - Develop a basic search feature for browsing available books by title, author, or genre.
@@ -129,10 +144,10 @@ Database
    - Add a "Social" page to view other users and their listings.
    - Implement friend request functionality.
 
-### Phase 2: More User Engagement and Community Features
+## Milestone 2: More User Engagement and Community Features
 - **Objective:** Further enhance user interaction and community involvement.
 
-#### Tasks:
+### Tasks:
 1.. **User Reviews and Ratings**
    - Allow users to leave reviews and ratings for users and books they have exchanged.
 
@@ -142,10 +157,10 @@ Database
 3. **Discussion Forums**
    - Introduce forums for users to discuss book recommendations, share insights, and connect over mutual interests.
 
-### Phase 3: Advanced Features and AI Integration
+## Milestone 3: Advanced Features and AI Integration
 - **Objective:** Introduce innovative features to improve user experience.
 
-#### Tasks:
+### Tasks:
 1. **AI-Powered Recommendations**
    - Develop an algorithm that analyzes user reading habits, preferences, and past exchanges to provide personalized book recommendations.
 
@@ -165,10 +180,10 @@ Database
 6. **Dynamic Book Recommendations Based on User Behavior**
    - Analyze real-time data to adjust recommendations based on current trends and what similar users are exchanging or searching for.
 
-### Phase 4: Testing and Optimization
+## Milestone 4: Testing and Optimization
 - **Objective:** Ensure the platform is stable, user-friendly, and optimized for performance.
 
-#### Tasks:
+### Tasks:
 1. **User Testing**
    - Conduct user testing sessions to gather feedback on usability and functionality.
    - Make necessary adjustments based on feedback.
@@ -180,10 +195,10 @@ Database
    - Review and refactor code for maintainability.
    - Update documentation and README files with setup instructions and features.
 
-### Phase 5: Future Extensions and Innovations
+## Milestone 5: Future Extensions and Innovations
 - **Objective:** Explore potential partnerships and new technologies for platform enhancement.
 
-#### Tasks:
+### Tasks:
 1. **Partnerships with Local Libraries**
    - Collaborate with local libraries or bookstores to facilitate physical book exchanges and community events.
 
